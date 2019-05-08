@@ -124,3 +124,63 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
+function Hero(attributes) {
+  Humanoid.call(this, attributes);
+}
+Hero.prototype = Object.create(Humanoid.prototype)
+Hero.prototype.reduceHeroHealth = function() {
+  return this.healthPoints <= 0 ? this.destroy() : --this.healthPoints;
+}
+
+function Villain(attributes) {
+  Humanoid.call(this, attributes);
+}
+Villain.prototype = Object.create(Humanoid.prototype);
+Villain.prototype.reduceVillianHealth = function() {
+  return this.healthPoints <= 0 ? this.destroy() : --this.healthPoints;
+}
+
+const hero = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 2,
+    height: 2
+  },
+  healthPoints: 10,
+  name: 'Sir Invincible Noble',
+  team: 'The Round Table',
+  weapons: ['Hammer of Wroth', 'Arrow of Fire'],
+  language: 'Common Tongue'
+});
+
+const villain = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 3,
+    width: 2,
+    height: 1,
+  },
+  healthPoints: 5,
+  name: 'Evil Jane',
+  team: 'Mage Guild',
+  weapons: ['Sword of Deadanddead'],
+  language: 'Common Tongue'
+});
+
+// Hero
+console.log(hero.name); // Sir Invincible Noble
+console.log(hero.healthPoints); // 10
+console.log(hero.reduceHeroHealth()) // 9
+console.log(hero.reduceHeroHealth()) // 8
+console.log(hero.reduceHeroHealth()) // 7
+
+// Villian
+console.log(villain.name); // Evil Jane
+console.log(villain.healthPoints); // 5 
+console.log(villain.reduceVillianHealth()) // 4
+console.log(villain.reduceVillianHealth()) // 3
+console.log(villain.reduceVillianHealth()) // 2
+console.log(villain.reduceVillianHealth()) // 1
+console.log(villain.reduceVillianHealth()) // 0
+console.log(villain.reduceVillianHealth()) // Evil Jane was removed from the game
